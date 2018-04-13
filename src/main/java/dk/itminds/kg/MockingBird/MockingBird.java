@@ -75,6 +75,7 @@ public class MockingBird {
         bird.start();
         //bird.getJythonManager().openPythonREPL();
         bird.startREPL();
+        bird.stop();
 
     }
 

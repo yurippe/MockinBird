@@ -48,7 +48,10 @@ public class MockingBirdREPL {
     }
 
     private void CMD_help(){
-        console.writer().println("help: TODO");
+        console.writer().println("Available commands: ");
+        console.writer().println("\t `jython`: Opens a Jython REPL with __bird__ set to the MockingBird instance");
+        console.writer().println("\t `run <path>`: Runs the Python script at location <path>");
+        console.writer().println("\t `stop`: Stops the server");
     }
 
     private void CMD_jythonREPL(){

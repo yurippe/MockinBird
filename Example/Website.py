@@ -1,11 +1,14 @@
 from org.slf4j import LoggerFactory
 
+from dk.atomit.Builders import JSONBuilder #Use this for Java objects
 from PyJettyHandler import PyJettyHandler, Template
 
 from javax.servlet.http import HttpServletResponse
 from java.lang import Object as JavaObject
 
 from jinja2 import Template as JinjaTemplate
+
+import json
 import os
 
 BASE_DIR = os.path.dirname(os.path.join(os.getcwd(), __path__))
@@ -18,6 +21,20 @@ ErrorTemplate = JinjaTemplate("""
 </html>                   
 """)
 
+InfoTemplate = JinjaTemplate("""
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+Path: {{ path }}<br />
+Parameters:<br/>
+<pre><code>
+{{ parameters }}
+</code></pre>
+</body>
+</html> 
+""")
+
 handler = PyJettyHandler()
 __bird__.setHandler(handler)
 
@@ -25,16 +42,10 @@ class PythonCode(JavaObject):
     pass
 
 log = LoggerFactory.getLogger(PythonCode)
-print("--------")
-print(dir())
-print(os.path.dirname(os.path.realpath('__file__')))
-print(__path__)
-print(os.path.dirname(os.path.join(os.getcwd(), __path__)))
-print("--------")
 
 @handler.path("/name/(?P<name>\\w+)")
 @Template(os.path.join(BASE_DIR, "templates", "base.template"), cache=False)
-def handle_all_pages(pyRequest):
+def handle_name_page(pyRequest):
 
     name = pyRequest.getStrGroup("name", "Admin")
 
@@ -43,6 +54,18 @@ def handle_all_pages(pyRequest):
                 
                 "name": name
                 
-                }))
+        }))
+
+@handler.path(".*")
+def handle_all_other_pages(pyRequest):
+
+    params = json.loads(JSONBuilder.objectToJSON(pyRequest.params))
+    params = json.dumps(params, indent=4)
+    
+    pyRequest.out.println(
+        InfoTemplate.render({
+            "parameters": params,
+            "path": pyRequest.path
+            }))
     
 

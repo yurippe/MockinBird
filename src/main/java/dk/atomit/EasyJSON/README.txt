@@ -1,0 +1,1 @@
+This is derived from [https://github.com/fangyidong/json-simple](https://github.com/fangyidong/json-simple), so you should probably use JSON-Simple in your own project instead, as it is a really good library.
