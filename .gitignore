@@ -24,6 +24,7 @@ src/main/java/dk/atomit/NeonSnake/NeonPlugins/DebuggerPlugin/*
 
 # Build and packaged files
 target/*
+project/*
 
 # User-specific stuff:
 .idea/**/workspace.xml
