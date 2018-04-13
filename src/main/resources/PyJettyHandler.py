@@ -4,7 +4,10 @@ from javax.servlet.http import HttpServletResponse
 import re
 import base64
 
-try: from jinja2 import Template as JTemplate
+try:
+    from jinja2 import Template as JTemplate
+    from jinja2 import FileSystemLoader as JFSL
+    from jinja2 import Environment as JEnv
 except: pass
 
 def Transaction(db):
@@ -41,6 +44,20 @@ def Template(path, cache=True):
             return f(*args, **kwargs)
         return template_wrapper
     return wrapper
+
+def FileSystemLoader(*args, **kwargs):
+    env = JEnv(loader=JFSL(*args, **kwargs))
+    def decorator(filepath):
+        def wrapper(f):
+            def tmp_wrapper(*args, **kwargs):
+                templ = env.get_template(filepath)
+                try: args[0].template = templ
+                except: pass
+                return f(*args, **kwargs)
+            return tmp_wrapper
+        return wrapper
+    return decorator
+
 
 class PyJettyHandler(AbstractHandler):
 

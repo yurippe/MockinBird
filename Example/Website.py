@@ -1,7 +1,7 @@
 from org.slf4j import LoggerFactory
 
 from dk.atomit.Builders import JSONBuilder #Use this for Java objects
-from PyJettyHandler import PyJettyHandler, Template
+from PyJettyHandler import PyJettyHandler, FileSystemLoader
 
 from javax.servlet.http import HttpServletResponse
 from java.lang import Object as JavaObject
@@ -12,6 +12,7 @@ import json
 import os
 
 BASE_DIR = os.path.dirname(os.path.join(os.getcwd(), __path__))
+template = FileSystemLoader([os.path.join(BASE_DIR, "templates")])
 
 ErrorTemplate = JinjaTemplate("""
 <!DOCTYPE html>
@@ -44,20 +45,18 @@ class PythonCode(JavaObject):
 log = LoggerFactory.getLogger(PythonCode)
 
 @handler.path("/name/(?P<name>\\w+)")
-@Template(os.path.join(BASE_DIR, "templates", "base.template"), cache=False)
+@template("hello.template")
 def handle_name_page(pyRequest):
 
     name = pyRequest.getStrGroup("name", "Admin")
 
     pyRequest.out.println(
         pyRequest.template.render({
-                
                 "name": name
-                
         }))
 
 @handler.path("/socketio")
-@Template(os.path.join(BASE_DIR, "templates", "socketio.template"), cache=False)
+@template("socketio.template")
 def handle_socketIO_front(pyRequest):
     plugins = __bird__.getActiveMockingBirdREPL().getSubHandlers()
     if not plugins.containsKey("socketio"):

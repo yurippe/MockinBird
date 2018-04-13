@@ -8,9 +8,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.dev.js"></script>
 </head>
 <body>
+<p>Send events on the "myevent" channel to make them show up on this page</p>
+<p>Example:</p>
+<code>socketio event myevent Hello World!</code>
+<br /><br />
+<code>
 <div id="events">
-</div>
 
+</div>
+</code>
 <script>
 var socket =  io.connect('http://localhost:9092');
 var eventsDiv = document.getElementById("events");
