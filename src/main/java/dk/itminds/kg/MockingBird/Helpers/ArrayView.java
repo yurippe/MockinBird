@@ -1,4 +1,4 @@
-package dk.itminds.kg.MockingBird;
+package dk.itminds.kg.MockingBird.Helpers;
 
 import java.util.Iterator;
 

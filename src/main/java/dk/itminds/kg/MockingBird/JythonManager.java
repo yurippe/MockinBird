@@ -1,5 +1,6 @@
 package dk.itminds.kg.MockingBird;
 
+import dk.itminds.kg.MockingBird.Helpers.PythonEvalResult;
 import org.python.core.PyCode;
 import org.python.core.PyException;
 import org.python.core.PySyntaxError;

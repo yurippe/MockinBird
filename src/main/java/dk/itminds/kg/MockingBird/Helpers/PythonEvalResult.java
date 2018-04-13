@@ -1,4 +1,4 @@
-package dk.itminds.kg.MockingBird;
+package dk.itminds.kg.MockingBird.Helpers;
 
 import org.python.core.PyObject;
 import org.python.util.PythonInterpreter;

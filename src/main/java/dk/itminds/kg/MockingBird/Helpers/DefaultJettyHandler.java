@@ -1,4 +1,4 @@
-package dk.itminds.kg.MockingBird;
+package dk.itminds.kg.MockingBird.Helpers;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;

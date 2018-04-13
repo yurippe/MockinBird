@@ -1,5 +1,6 @@
 package dk.itminds.kg.MockingBird;
 
+import dk.itminds.kg.MockingBird.Helpers.DefaultJettyHandler;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
@@ -16,6 +17,8 @@ public class MockingBird {
 
     private int port;
     private Logger log;
+
+    private MockingBirdREPL activeREPL;
 
     public MockingBird(){
         this(8080);
@@ -65,6 +68,18 @@ public class MockingBird {
     public void startREPL(){
         MockingBirdREPL repl = new MockingBirdREPL(this);
         repl.begin();
+    }
+
+    public int getPort(){
+        return port;
+    }
+
+    public MockingBirdREPL getActiveMockingBirdREPL(){
+        return activeREPL;
+    }
+
+    public void setActiveMockingBirdREPL(MockingBirdREPL repl){
+        this.activeREPL = repl;
     }
 
 

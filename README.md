@@ -18,9 +18,10 @@ You can have a fully running example by typing
 $> mvn clean package
 $> cd target
 $> java -jar MockingBird-0.1.jar
-[... starting logs from MockingBird]
->> help
-[... help message]
+>> start 9000
+[... starting MockingBird on port 9000]
+>> start socketio 0.0.0.0 9092
+[... starting socketio on port 9092]
 >> run ../Example/Website.py
 ```
-Then navigating to `http://localhost:9000/name/Admin`
+Then navigating to `http://localhost:9000/name/Admin` or `http://localhost:9000/socketio`

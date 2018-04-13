@@ -56,6 +56,24 @@ def handle_name_page(pyRequest):
                 
         }))
 
+@handler.path("/socketio")
+@Template(os.path.join(BASE_DIR, "templates", "socketio.template"), cache=False)
+def handle_socketIO_front(pyRequest):
+    plugins = __bird__.getActiveMockingBirdREPL().getSubHandlers()
+    if not plugins.containsKey("socketio"):
+        pyRequest.out.println(
+                ErrorTemplate.render({ "errormessage":
+                                           ("The SocketIO plugin should be enabled for this to work<br/>"
+                                            "To enable the plugin use the command 'start socketio 0.0.0.0 9092'")
+                                     }))
+        return
+
+    pyRequest.out.println(
+        pyRequest.template.render({
+
+
+        }))
+
 @handler.path(".*")
 def handle_all_other_pages(pyRequest):
 
@@ -68,4 +86,3 @@ def handle_all_other_pages(pyRequest):
             "path": pyRequest.path
             }))
     
-

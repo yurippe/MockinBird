@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SocketIO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.dev.js"></script>
+</head>
+<body>
+<div id="events">
+</div>
+
+<script>
+var socket =  io.connect('http://localhost:9092');
+var eventsDiv = document.getElementById("events");
+
+socket.on('connect', function() {
+    eventsDiv.innerHTML += "<div>Connected</div>\n"
+});
+
+socket.on("myevent", function(data) {
+    eventsDiv.innerHTML += "<div>myevent: " + data + "</div>\n"
+});
+
+</script>
+
+</body>

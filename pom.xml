@@ -6,7 +6,7 @@
 
     <groupId>dk.itminds.kg</groupId>
     <artifactId>MockingBird</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
 
     <packaging>jar</packaging>
     <name>MockingBird</name>
@@ -55,7 +55,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>
-                                dk.itminds.kg.MockingBird.MockingBird
+                                dk.itminds.kg.MockingBird.MockingBirdREPL
                             </mainClass>
                         </manifest>
                     </archive>
@@ -81,7 +81,7 @@
         <dependency>
             <groupId>com.corundumstudio.socketio</groupId>
             <artifactId>netty-socketio</artifactId>
-            <version>1.7.13</version>
+            <version>1.7.14</version>
         </dependency>
 
         <dependency>
