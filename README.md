@@ -19,6 +19,8 @@ $> mvn clean package
 $> cd target
 $> java -jar MockingBird-0.1.jar
 [... starting logs from MockingBird]
+>> help
+[... help message]
 >> run ../Example/Website.py
 ```
 Then navigating to `http://localhost:9000/name/Admin`
