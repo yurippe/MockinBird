@@ -21,6 +21,7 @@ public class MockingBirdREPL {
     private Logger log;
 
     private Map<String, CommandHandler> subHandlers = new HashMap<>();
+    private Map<Long, Thread> threads = new HashMap<>();
 
     private static final String REPL_PREFIX = ">> ";
 
@@ -67,6 +68,7 @@ public class MockingBirdREPL {
                 case "jython": CMD_jythonREPL(); break;
                 case "sethandler": CMD_setHandler(args); break;
                 case "run": CMD_jythonRun(args); break;
+                case "runasync": CMD_jythonRunAsync(args); break;
 
                 default: if(subHandlers.containsKey(args[0])){
                             String[] subargs;
@@ -98,6 +100,9 @@ public class MockingBirdREPL {
         console.writer().println("\t `start <service> [args]`: Starts a service");
         console.writer().println("\t `jython`: Opens a Jython REPL with __bird__ set to the MockingBird instance");
         console.writer().println("\t `run <path>`: Runs the Python script at location <path>");
+        console.writer().println("\t `runasync <path>`: Runs the Python script at location <path> in a separate thread");
+        //console.writer().println("\t `threads`: Lists all running thread ids");
+        //console.writer().println("\t `interupt <id>`: Interrupts thread with id <id>");
         console.writer().println("\t `stop`: Stops the server");
     }
 
@@ -119,6 +124,16 @@ public class MockingBirdREPL {
         if(result.getException() != null){
             log.warn("Exception when executing script '" + path + "'", result.getException());
         }
+    }
+
+    private void CMD_jythonRunAsync(String[] args){
+        String path = String.join(" ", new ArrayView(args).setWindow(1, args.length));
+
+        Map<String, Object> env = new HashMap<>();
+        env.put("__path__", path);
+
+        Thread t = bird.getJythonManager().execfileAsync(path, bird.getJythonManager().getNewInterpreter(env)); //Currently this should stop by itself
+        threads.put(t.getId(), t);
     }
 
     private void CMD_start(String[] args){
@@ -167,6 +182,7 @@ public class MockingBirdREPL {
     public Map<String, CommandHandler> getSubHandlers(){
         return subHandlers;
     }
+    public Map<Long, Thread> getThreads(){ return threads; }
 
     public static void main(String[] args) {
 

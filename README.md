@@ -23,5 +23,9 @@ $> java -jar MockingBird-0.1.jar
 >> start socketio 0.0.0.0 9092
 [... starting socketio on port 9092]
 >> run ../Example/Website.py
+[... Replaced the Jetty handler, and an example website now works]
+>> runasync ../Example/EventGenerator.py
+[... Broadcast 1000 events with random intervals of [0..5] seconds]
+[    (can be seen on page http://localhost:9000/socketio ]
 ```
 Then navigating to `http://localhost:9000/name/Admin` or `http://localhost:9000/socketio`

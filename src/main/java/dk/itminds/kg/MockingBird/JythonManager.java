@@ -63,4 +63,20 @@ public class JythonManager {
         }
     }
 
+    public Thread execfileAsync(String path, PythonInterpreter interpreter){
+
+        Thread t = new Thread(()->{
+            log.info("Starting new thread for '" + path + "' (id: " + Thread.currentThread().getId() + ")");
+            PythonEvalResult result = execfile(path, interpreter);
+            if(!(result.getException() == null)){
+                log.warn("Exception while executing script '" + path + "'", result.getException());
+            } else {
+                log.info("Finished executing script '" + path + "' (id: " + Thread.currentThread().getId() + ")");
+            }
+
+        });
+        t.start();
+        return t;
+    }
+
 }
