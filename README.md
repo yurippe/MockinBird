@@ -17,7 +17,7 @@ You can have a fully running example by typing
 ```
 $> mvn clean package
 $> cd target
-$> java -jar MockingBird-0.1.jar
+$> java -jar MockingBird-0.2.jar
 >> start 9000
 [... starting MockingBird on port 9000]
 >> start socketio 0.0.0.0 9092
