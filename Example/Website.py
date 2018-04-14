@@ -11,7 +11,9 @@ from jinja2 import Template as JinjaTemplate
 import json
 import os
 
+# Calculate the Base directory, this is calculated based on the path of the script joined with the current working dir
 BASE_DIR = os.path.dirname(os.path.join(os.getcwd(), __path__))
+# Make the @template decorator by supplying a template directory. This allows for template inheritance
 template = FileSystemLoader([os.path.join(BASE_DIR, "templates")])
 
 ErrorTemplate = JinjaTemplate("""
@@ -36,12 +38,20 @@ Parameters:<br/>
 </html> 
 """)
 
+# Create a new Jetty Handler
 handler = PyJettyHandler()
+# Set the new handler as the default handler for Jetty
 __bird__.setHandler(handler)
 
+# Set the base path for static files
+handler.setStaticContext(BASE_DIR)
+# Add some static files to serve. These take priority over regex matches.
+handler.static("/base.source", "templates/base.template", contentType="text/plain; charset=utf-8")
+handler.static("/base.source.cache", "templates/base.template", contentType="text/plain; charset=utf-8", cache=True)
+
+# Create a logger, (kind of hacky code)
 class PythonCode(JavaObject):
     pass
-
 log = LoggerFactory.getLogger(PythonCode)
 
 @handler.path("/name/(?P<name>\\w+)")
@@ -84,4 +94,3 @@ def handle_all_other_pages(pyRequest):
             "parameters": params,
             "path": pyRequest.path
             }))
-    

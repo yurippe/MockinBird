@@ -2,6 +2,7 @@ from org.eclipse.jetty.server.handler import AbstractHandler
 from javax.servlet.http import HttpServletResponse
 
 import re
+import os
 import base64
 
 try:
@@ -63,8 +64,19 @@ class PyJettyHandler(AbstractHandler):
 
     def __init__(self):
         self.handlers = []
+        self.statics = {}
+        self.staticbasepath = ""
 
     def handle(self, path, baseRequest, request, response):
+        if path in self.statics:
+            response.setContentType("text/plain; charset=utf-8")
+            response.setStatus(HttpServletResponse.SC_OK)
+            baseRequest.setHandled(True)
+            self.statics[path](PyRequest(self, None, path, baseRequest, request, response))
+            if baseRequest.isHandled():
+                return
+
+
         for regex, handler in self.handlers:
             match = regex.match(path)
             if match:
@@ -98,6 +110,30 @@ class PyJettyHandler(AbstractHandler):
             self.register_handler(path, handler)
             return handler
         return f
+
+    def setStaticContext(self, basepath):
+        self.staticbasepath = basepath
+
+    def static(self, path, resource, contentType="text/plain; charset=utf-8", cache=False):
+        if cache:
+            try:
+                with open(os.path.join(self.staticbasepath, resource), "r") as f:
+                    cont = f.read()
+            except: cont = None
+        def handler(pyRequest):
+            pyRequest.response.setContentType(contentType)
+            if not cache:
+                try:
+                    with open(os.path.join(self.staticbasepath, resource), "r") as f:
+                        content = f.read()
+                except:
+                    pyRequest.response.setStatus(HttpServletResponse.SC_NOT_FOUND)
+            else:
+                content = cont
+            pyRequest.out.print(content)
+
+        self.statics[path] = handler
+
 
 class PyRequest(object):
     """
