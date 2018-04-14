@@ -103,6 +103,10 @@ public class MockingBirdREPL {
         console.writer().println("\t `runasync <path>`: Runs the Python script at location <path> in a separate thread");
         //console.writer().println("\t `threads`: Lists all running thread ids");
         //console.writer().println("\t `interupt <id>`: Interrupts thread with id <id>");
+        console.writer().println("\t Plugins:");
+        for(String plugin : subHandlers.keySet()){
+            console.writer().println("\t\t`"  + plugin + "`");
+        }
         console.writer().println("\t `stop`: Stops the server");
     }
 
@@ -179,7 +183,7 @@ public class MockingBirdREPL {
 
     }
 
-    public Map<String, CommandHandler> getSubHandlers(){
+    public Map<String, CommandHandler> getPlugins(){
         return subHandlers;
     }
     public Map<Long, Thread> getThreads(){ return threads; }

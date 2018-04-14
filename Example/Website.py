@@ -68,7 +68,7 @@ def handle_name_page(pyRequest):
 @handler.path("/socketio")
 @template("socketio.template")
 def handle_socketIO_front(pyRequest):
-    plugins = __bird__.getActiveMockingBirdREPL().getSubHandlers()
+    plugins = __bird__.getActiveMockingBirdREPL().getPlugins()
     if not plugins.containsKey("socketio"):
         pyRequest.out.println(
                 ErrorTemplate.render({ "errormessage":

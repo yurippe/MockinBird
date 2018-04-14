@@ -2,7 +2,7 @@ import time
 import random
 
 repl = __bird__.getActiveMockingBirdREPL()
-plugins = repl.getSubHandlers()
+plugins = repl.getPlugins()
 
 if plugins.containsKey("socketio"):
     sio = plugins.get("socketio")
