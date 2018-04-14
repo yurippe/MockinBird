@@ -55,7 +55,7 @@ public class SocketIOManager implements CommandHandler {
 
     private void CMD_stop_and_remove(){
         shutdown();
-        bird.getActiveMockingBirdREPL().getSubHandlers().remove("socketio");
+        bird.getActiveMockingBirdREPL().getPlugins().remove("socketio");
     }
 
     private void CMD_broadcast(String[] args){
