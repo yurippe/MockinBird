@@ -81,7 +81,17 @@
         <dependency>
             <groupId>com.corundumstudio.socketio</groupId>
             <artifactId>netty-socketio</artifactId>
-            <version>1.7.14</version>
+            <version>1.7.13</version>
+        </dependency>
+
+        <!--
+        To fix bug with socketIO "Unable to create Channel from class io.netty.channel.socket.nio.NioServerSocketChannel
+        https://github.com/mrniko/netty-socketio/issues/496
+        -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-transport</artifactId>
+            <version>4.1.15.Final</version>
         </dependency>
 
         <dependency>

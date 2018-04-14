@@ -36,6 +36,16 @@ public class SocketIOManager implements CommandHandler {
         configuration.setPort(port);
 
         this.sioServer = new SocketIOServer(configuration);
+
+/*
+        sioServer.addConnectListener(new ConnectListener() {
+            @Override
+            public void onConnect(SocketIOClient socketIOClient) {
+
+                log.info(socketIOClient.getSessionId() + " connected");
+            }
+        });
+*/
         sioServer.start();
     }
 
@@ -80,6 +90,11 @@ public class SocketIOManager implements CommandHandler {
 
     public int getPort(){
         return port;
+    }
+
+
+    public SocketIOServer getServer(){
+        return sioServer;
     }
 
     public String getHostname(){

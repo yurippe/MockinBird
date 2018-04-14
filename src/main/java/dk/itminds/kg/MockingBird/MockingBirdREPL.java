@@ -104,8 +104,8 @@ public class MockingBirdREPL {
         //console.writer().println("\t `threads`: Lists all running thread ids");
         //console.writer().println("\t `interupt <id>`: Interrupts thread with id <id>");
         console.writer().println("\t `stop`: Stops the server");
-        console.writer().println("Plugins:");
         if(subHandlers.size() > 0) {
+            console.writer().println("Plugins:");
             for (String plugin : subHandlers.keySet()) {
                 console.writer().println("\t`" + plugin + "`");
             }
