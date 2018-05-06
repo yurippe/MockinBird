@@ -1,7 +1,7 @@
 from org.slf4j import LoggerFactory
 
 from dk.atomit.Builders import JSONBuilder #Use this for Java objects
-from PyJettyHandler import PyJettyHandler, FileSystemLoader
+from PyJettyHandler import PyJettyHandler, FileSystemLoader, IncludeSessionHandler
 
 from javax.servlet.http import HttpServletResponse
 from java.lang import Object as JavaObject
@@ -41,7 +41,7 @@ Parameters:<br/>
 # Create a new Jetty Handler
 handler = PyJettyHandler()
 # Set the new handler as the default handler for Jetty
-__bird__.setHandler(handler)
+__bird__.setHandler(IncludeSessionHandler(handler))
 
 # Set the base path for static files
 handler.setStaticContext(BASE_DIR)
@@ -83,6 +83,17 @@ def handle_socketIO_front(pyRequest):
 
         }))
 
+
+@handler.path("/authed")
+def handleAuthed(pyRequest):
+    session = pyRequest.baseRequest.getSession()
+    authed = session.getAttribute("authed")
+    if authed is None:
+        pyRequest.out.println("Not authed")
+        session.setAttribute("authed", "Administrator")
+    else:
+        pyRequest.out.println("Authed as " + authed)
+
 @handler.path(".*")
 def handle_all_other_pages(pyRequest):
 
@@ -94,3 +105,4 @@ def handle_all_other_pages(pyRequest):
             "parameters": params,
             "path": pyRequest.path
             }))
+

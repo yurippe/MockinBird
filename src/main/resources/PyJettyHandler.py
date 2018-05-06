@@ -1,4 +1,6 @@
-from org.eclipse.jetty.server.handler import AbstractHandler
+from org.eclipse.jetty.server.handler import AbstractHandler, ContextHandler
+from org.eclipse.jetty.server.session import HashSessionIdManager, HashSessionManager, SessionHandler
+
 from javax.servlet.http import HttpServletResponse
 
 import re
@@ -10,6 +12,16 @@ try:
     from jinja2 import FileSystemLoader as JFSL
     from jinja2 import Environment as JEnv
 except: pass
+
+def IncludeSessionHandler(handler, contextPath="/"):
+    """Wraps a handler with a session handler"""
+    context = ContextHandler(contextPath)
+    manager = HashSessionManager()
+    sessions = SessionHandler(manager)
+
+    context.setHandler(sessions)
+    sessions.setHandler(handler)
+    return context
 
 def Transaction(db):
     """Decorator to wrap a whole handler. This will attempt to set a transaction property on the first argument"""

@@ -3,6 +3,8 @@ package dk.itminds.kg.MockingBird;
 import dk.itminds.kg.MockingBird.Helpers.DefaultJettyHandler;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.SessionIdManager;
+import org.eclipse.jetty.server.session.HashSessionIdManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +36,7 @@ public class MockingBird {
         server = new Server(port);
         log.info("Started HTTP server on port " + port);
         server.setHandler(new DefaultJettyHandler());
+        server.setSessionIdManager(new HashSessionIdManager());
         log.info("Set handler to default handler");
 
         try {
@@ -59,6 +62,20 @@ public class MockingBird {
         } catch (Exception e){
             log.error("Exception while setting handler", e);
         }
+    }
+
+    public void setSessionIdManager(SessionIdManager manager){
+        try {
+            server.stop();
+            server.setSessionIdManager(manager);
+            server.start();
+        } catch (Exception e){
+            log.error("Exception while setting session id manager", e);
+        }
+    }
+
+    public Server getServer(){
+        return server;
     }
 
     public JythonManager getJythonManager(){
